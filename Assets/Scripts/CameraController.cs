@@ -3,24 +3,33 @@
 [RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-    public float Sensitivity = 5.0f;
-    public float Smoothing = 2.0f;
+    public float                Sensitivity = 5.0f;
+    public float                Smoothing = 2.0f;
 
-    public Camera Camera { get; private set; }
+    public Camera               Camera { get; private set; }
 
-    private Vector2 m_mouseLook;
-    private Vector2 m_smoothV;
-    private Vector2 m_moveDirection;
+    private Vector2             m_mouseLook;
+    private Vector2             m_smoothV;
+    private Vector2             m_moveDirection;
 
-    private GameObject m_playerController;
+    private GameObject          m_playerController;
 
     private void Awake()
     {
-        m_playerController = this.transform.parent.gameObject;
-        Camera = GetComponent<Camera>();
+        m_playerController  = this.transform.parent.gameObject;
+        Camera              = GetComponent<Camera>();
     }
 
     private void Update()
+    {
+        if(GameManager.Instance?.LockStateManager.IsPaused ?? true)
+        {
+            return;
+        }
+        ProcessMove();
+    }
+
+    private void ProcessMove()
     {
         m_moveDirection = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 

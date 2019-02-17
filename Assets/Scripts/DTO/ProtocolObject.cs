@@ -31,7 +31,7 @@ public class ProtocolObject
     public string Serialize()
     {
         var serializedObj = JsonUtility.ToJson(this, false);
-        Debug.Log(serializedObj);
+        //Debug.Log(serializedObj);
         return serializedObj;
     }
 }
@@ -55,6 +55,13 @@ public class POIProtocolObject : ProtocolObject
         Image       = _image;
         Links       = _links;
     }
+
+    public static POIProtocolObject None => 
+    new POIProtocolObject()
+    {
+        Type = EProtocolObjectType.POI,
+        ID = -1
+    };
 }
 
 [System.Serializable]
