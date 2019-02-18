@@ -76,6 +76,12 @@ public class GameManager : MonoBehaviour
     //    return images.ToArray();
     //}
 
+    public void SetLockState(string _lockMode)
+    {
+        if (_lockMode == "CursorLockMode.Locked") m_lockStateManager.SetLockState(CursorLockMode.Locked);
+        if (_lockMode == "CursorLockMode.None") m_lockStateManager.SetLockState(CursorLockMode.None);
+    }
+
     private void OnDestroy()
     {
         if(s_instance == this)
