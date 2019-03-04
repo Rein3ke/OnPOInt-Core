@@ -53,33 +53,13 @@ public class GameManager : MonoBehaviour
 
     public POIData GetPOIByID(int _ID)
     {
-        //foreach(var dat in POIData.Data)
-        //{
-        //    if (dat.ID == _ID) return dat;
-        //}
-        //return null;
         return POIData.Data.FirstOrDefault(_object => _object.ID == _ID);
     }
 
-    //public Texture2D[] LoadPOIImageData(POIData _data)
-    //{
-    //    var images = new List<Texture2D>();
-    //    foreach (var path in _data.ImagePath)
-    //    {
-    //        var img = Resources.Load<Texture2D>("poi_images/" + path);
-    //        if (img != null)
-    //        {
-    //            images.Add(img);
-    //        }
-    //    }
-    //    Debug.Log(images.Count + " images loaded for POI " + _data.ID);
-    //    return images.ToArray();
-    //}
-
-    public void SetLockState(string _lockMode)
+    public void SetLockState(int _lockMode)
     {
-        if (_lockMode == "CursorLockMode.Locked") m_lockStateManager.SetLockState(CursorLockMode.Locked);
-        if (_lockMode == "CursorLockMode.None") m_lockStateManager.SetLockState(CursorLockMode.None);
+        if (_lockMode > 2 || _lockMode < 0) throw new System.ArgumentException("Invalid _lockMode supplied.");
+        m_lockStateManager.SetLockState((CursorLockMode)_lockMode);
     }
 
     private void OnDestroy()

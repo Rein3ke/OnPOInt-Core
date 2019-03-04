@@ -36,25 +36,32 @@ public class ProtocolObject
     }
 }
 
+/// <summary>
+/// Geht vom unity build raus an javascript.
+/// </summary>
 [System.Serializable]
 public class POIProtocolObject : ProtocolObject
 {
     public int ID;
-    public string Name;
-    public string Description;
-    public byte[] Image;
-    public string[] Links;
+    //public string Name;
+    //public string Description;
+    //public byte[] Image;
+    //public string[] Links;
 
     public POIProtocolObject() { }
-    public POIProtocolObject(int _ID, string _name, string _description, byte[] _image, string[] _links)
-        : base(EProtocolObjectType.POI)
+    public POIProtocolObject(int _ID)
     {
-        ID          = _ID;
-        Name        = _name;
-        Description = _description;
-        Image       = _image;
-        Links       = _links;
+        ID = _ID;
     }
+    //public POIProtocolObject(int _ID, string _name, string _description, byte[] _image, string[] _links)
+    //    : base(EProtocolObjectType.POI)
+    //{
+    //    ID          = _ID;
+    //    Name        = _name;
+    //    Description = _description;
+    //    Image       = _image;
+    //    Links       = _links;
+    //}
 
     public static POIProtocolObject None => 
     new POIProtocolObject()
@@ -99,13 +106,15 @@ public class SpeedChangeProtocolObject : ProtocolObject
 [System.Serializable]
 public class SceneChangeProtocolObject : ProtocolObject
 {
+    public string SceneID;
     public string SceneName;
 
     public SceneChangeProtocolObject() { }
-    public SceneChangeProtocolObject(string _sceneName)
+    public SceneChangeProtocolObject(string _sceneID, string _sceneName)
         : base(EProtocolObjectType.SCENE_CHANGE)
     {
-        SceneName = _sceneName;
+        SceneID     = _sceneID;
+        SceneName   = _sceneName;
     }
 }
 

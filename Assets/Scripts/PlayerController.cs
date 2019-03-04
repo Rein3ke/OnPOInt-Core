@@ -19,6 +19,18 @@ public class PlayerController : MonoBehaviour
         m_uiController      = GetComponentInChildren<PlayerUI>();
     }
 
+    private void Start()
+    {
+        var go = GameObject.FindGameObjectWithTag("Respawn");
+        if (go == null)
+        {
+            Debug.LogWarning("Failed to find proper spawn point in scene. Defaulting player position.");
+            return;
+        }
+        transform.position = go.transform.position;
+        transform.rotation = go.transform.rotation;
+    }
+
     private void Update()
     {
         if (GameManager.Instance?.LockStateManager.IsPaused ?? true)

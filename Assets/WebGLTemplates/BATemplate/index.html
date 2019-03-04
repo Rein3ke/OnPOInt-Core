@@ -10,15 +10,21 @@
         const gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");
 
         function ToggleLockState(_isLocked) {
-            let lockState = "CursorLockMode.";
+            let lockState; // A number representing the lock state in Unity (0 = NONE, 1 = LOCKED, 2 = CONFINED)
+
+            /**
+             * Ueberprueft den gesetzen LockState und setzt, wenn true, den GameContainer in HTML auf fokussiert.
+             */
             if (_isLocked) {
                 document.getElementById("gameContainer").requestPointerLock();
                 document.getElementById("gameContainer").focus();
-                lockState += "Locked";
+                lockState = 1;
             } else {
-                lockState += "None";
+                lockState = 0;
                 document.getElementById("gameContainer").blur();
             }
+
+            // Sendet eine Request an Unity zum setzen des internen LockState.
             console.log("Send to Unity: " + lockState);
             gameInstance.SendMessage('GameManager', 'SetLockState', lockState);
         }
