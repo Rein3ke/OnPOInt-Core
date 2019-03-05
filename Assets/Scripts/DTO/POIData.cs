@@ -16,15 +16,6 @@ public class POIData
         ImagePath   = _images;
         Links       = _links;
     }
-
-    /// <summary>
-    /// Test Test
-    /// </summary>
-    /// <returns></returns>
-    public POIProtocolObject ToProtocolObject()
-    {
-        return new POIProtocolObject(ID, Name, Description, null, null); ///TODO: Vervollständigen
-    }
 }
 
 [System.Serializable]

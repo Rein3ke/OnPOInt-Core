@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    ComUtility.Send(data.ToProtocolObject());
+                    //ComUtility.Send(data.ToProtocolObject());
                 }
                 //Debug.Log(data.Name + ":" + data.Description);
             }
