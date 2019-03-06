@@ -43,16 +43,12 @@ public class POIProtocolObject : ProtocolObject
 
     public POIProtocolObject() { }
     public POIProtocolObject(int _ID)
+        : base(EProtocolObjectType.POI)
     {
         ID = _ID;
     }
 
-    public static POIProtocolObject None => 
-    new POIProtocolObject()
-    {
-        Type = EProtocolObjectType.POI,
-        ID = -1
-    };
+    public static POIProtocolObject None => new POIProtocolObject(-1);
 }
 
 /// <summary>

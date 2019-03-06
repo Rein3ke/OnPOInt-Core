@@ -60,15 +60,7 @@ public class PlayerController : MonoBehaviour
             if (poi != m_hoverPoint)
             {
                 m_hoverPoint    = poi;
-                var data        = GameManager.Instance.GetPOIByID(poi.ID);
-                if (data == null)
-                {
-                    Debug.LogWarning("Failed to send poi data to browser. POI with ID " + poi.ID + " could not be found.");
-                }
-                else
-                {
-                    //ComUtility.Send(data.ToProtocolObject());
-                }
+                ComUtility.Send(new POIProtocolObject(poi.ID));
                 //Debug.Log(data.Name + ":" + data.Description);
             }
         }

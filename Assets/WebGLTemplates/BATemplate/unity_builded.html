@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>Unity WebGL Player | %UNITY_WEB_NAME%</title>
+
+    <link rel="stylesheet" href="resources/css/style.css">
+
+    <script src="%UNITY_WEBGL_LOADER_URL%"></script>
+    <script>
+        const gameInstance = UnityLoader.instantiate("gameContainer", "%UNITY_WEBGL_BUILD_URL%");
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="resources/js/script.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <p>This is my awesome project! A whole new experience in web design and interactive graphics.</p>
+    </header>
+
+    <aside>
+        <select id="sceneSelection" onchange="sendSceneIDToUnity(this.value)"></select>
+    </aside>
+
+    <main>
+        <div id="gameContainer" oncontextmenu="ToggleLockState(false)" onclick="ToggleLockState(true)" style="width: %UNITY_WIDTH%px; height: %UNITY_HEIGHT%px;"></div>
+    </main>
+
+    <footer>
+        <h4 id="poi_name">None</h4>
+        <p id="poi_description">Please look at a POI point.</p>
+    </footer>
+</body>
+
+</html>

@@ -4,13 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private const string POI_DATA_RES_PATH          = "poi_data/poi_lib";
-
     public static GameManager Instance              => s_instance;
     private static GameManager s_instance           = null;
-
-    public POIDataSet POIData                       => m_poiDataSet;
-    private POIDataSet m_poiDataSet;
 
     public LockStateManager LockStateManager        => m_lockStateManager;
     private LockStateManager m_lockStateManager;
@@ -33,33 +28,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        LoadPOIData();
-        SceneManager.LoadScene("Scene 01");
-    }
-
-    private void LoadPOIData()
-    {
-        try
-        {
-            var textAssitFile   = Resources.Load<TextAsset>(POI_DATA_RES_PATH);
-            m_poiDataSet        = JsonUtility.FromJson<POIDataSet>(textAssitFile.text);
-        }
-        catch (System.Exception _e)
-        {
-            Debug.LogError($"Failed to load poi data set ({_e.GetType().Name}): {_e.Message}");
-            return;
-        }
-    }
-
-    public POIData GetPOIByID(int _ID)
-    {
-        return POIData.Data.FirstOrDefault(_object => _object.ID == _ID);
+        //LoadPOIData();
+        SceneManager.LoadScene("scene_1");
+        //SceneManager.LoadScene("Welcome_Screen");
     }
 
     public void SetLockState(int _lockMode)
     {
         if (_lockMode > 2 || _lockMode < 0) throw new System.ArgumentException("Invalid _lockMode supplied.");
         m_lockStateManager.SetLockState((CursorLockMode)_lockMode);
+    }
+
+    public void ReceiveSceneID(int _ID)
+    {
+        Debug.Log($"Loading Scene {_ID}.");
     }
 
     private void OnDestroy()
