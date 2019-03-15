@@ -292,7 +292,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Choose a Scene from the Menu...
+  m_Text: Loading scene...
 --- !u!222 &940338763
 CanvasRenderer:
   m_ObjectHideFlags: 0

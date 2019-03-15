@@ -22,8 +22,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        //
-        if(GameManager.Instance?.LockStateManager.IsPaused ?? true)
+        if (GameManager.Instance?.LockStateManager.IsPaused ?? true)
         {
             return;
         }

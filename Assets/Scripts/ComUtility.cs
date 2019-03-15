@@ -22,9 +22,15 @@ public class ComUtility
             if (string.IsNullOrEmpty(result)) throw new System.Exception("Serialization data is null");
             _jsCallback(result);
         }
+#if UNITY_EDITOR
+        catch(System.EntryPointNotFoundException)
+        {
+            //Ignore, because we are in the editor
+        }
+#endif
         catch (System.Exception _e)
         {
-            Debug.LogError("Serialization error occurred while serializing " + _pObject.GetType().Name + ": " + _e.Message);
+            Debug.LogError("Serialization error occurred while serializing (" + _e.GetType().Name + "): " + _e.Message);
         }
     }
 }

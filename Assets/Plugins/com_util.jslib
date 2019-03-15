@@ -11,7 +11,8 @@ mergeInto(LibraryManager.library, {
 				onPoiIdReceived(pObject.ID);
 			break;
 			case 2: //SCENE_CHANGE
-			
+				console.log("pObject ID: " + pObject.ID);
+				
 			break;
 		}
 	},

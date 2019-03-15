@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,9 @@ public class GameManager : MonoBehaviour
 
     public LockStateManager LockStateManager        => m_lockStateManager;
     private LockStateManager m_lockStateManager;
+
+    public SceneLoader SceneLoader => m_sceneLoader;
+    private SceneLoader m_sceneLoader;
 
     private void Awake()
     {
@@ -24,13 +28,18 @@ public class GameManager : MonoBehaviour
 
         s_instance          = this;
         m_lockStateManager  = GetComponent<LockStateManager>();
+        m_sceneLoader       = GetComponent<SceneLoader>();
     }
 
     private void Start()
     {
-        //LoadPOIData();
-        SceneManager.LoadScene("scene_1");
-        //SceneManager.LoadScene("Welcome_Screen");
+//#if UNITY_EDITOR
+//        SceneManager.LoadScene("test_scene");
+//#else
+//        SceneManager.LoadScene("Welcome_Screen");
+//#endif
+        SceneManager.LoadScene("Welcome_Screen");
+        m_sceneLoader.LoadScene(1);
     }
 
     public void SetLockState(int _lockMode)
@@ -39,9 +48,19 @@ public class GameManager : MonoBehaviour
         m_lockStateManager.SetLockState((CursorLockMode)_lockMode);
     }
 
+    /// <summary>
+    /// Recognize incomming scene change request
+    /// </summary>
+    /// <param name="_ID"></param>
     public void ReceiveSceneID(int _ID)
     {
-        Debug.Log($"Loading Scene {_ID}.");
+        if(m_sceneLoader.IsLoading)
+        {
+            Debug.LogWarning("Loader is already busy on another scene!");
+            return;
+        }
+        Debug.Log($"Loading Scene {_ID} ...");
+        m_sceneLoader.LoadScene(_ID);
     }
 
     private void OnDestroy()
