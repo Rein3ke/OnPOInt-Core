@@ -35,6 +35,8 @@ public class LockStateManager : MonoBehaviour
 
     public void SetLockState(CursorLockMode _lockMode)
     {
+        if (m_cursorLockMode == _lockMode) return;
+
         m_cursorLockMode    = _lockMode;
         m_isPaused          = m_cursorLockMode != CursorLockMode.Locked;
 

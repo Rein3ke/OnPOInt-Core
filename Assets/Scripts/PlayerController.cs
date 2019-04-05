@@ -19,17 +19,21 @@ public class PlayerController : MonoBehaviour
         m_uiController      = GetComponentInChildren<PlayerUI>();
     }
 
-    private void Start()
-    {
-        var go = GameObject.FindGameObjectWithTag("Respawn");
-        if (go == null)
-        {
-            Debug.LogWarning("Failed to find proper spawn point in scene. Defaulting player position.");
-            return;
-        }
-        transform.position = go.transform.position;
-        transform.rotation = go.transform.rotation;
-    }
+    //public void Spawn()
+    //{
+    //    if (isSpawned) return;
+
+    //    var go = GameObject.FindGameObjectWithTag("Respawn");
+    //    if (go == null)
+    //    {
+    //        Debug.LogWarning("Failed to find proper spawn point in scene. Defaulting player position.");
+    //        return;
+    //    }
+    //    transform.position = go.transform.position;
+    //    transform.rotation = go.transform.rotation;
+
+    //    isSpawned = true;
+    //}
 
     private void Update()
     {

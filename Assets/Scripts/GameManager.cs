@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public SceneLoader SceneLoader => m_sceneLoader;
     private SceneLoader m_sceneLoader;
 
+    private const string START_SCENE = "Welcome_Screen";
+
     private void Awake()
     {
         // Delete the instance, if already one is existing to prevent multiple gamemanagers
@@ -29,17 +31,15 @@ public class GameManager : MonoBehaviour
         s_instance          = this;
         m_lockStateManager  = GetComponent<LockStateManager>();
         m_sceneLoader       = GetComponent<SceneLoader>();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Start()
     {
-//#if UNITY_EDITOR
-//        SceneManager.LoadScene("test_scene");
-//#else
-//        SceneManager.LoadScene("Welcome_Screen");
-//#endif
-        SceneManager.LoadScene("Welcome_Screen");
-        m_sceneLoader.LoadScene(1);
+        SceneManager.LoadScene(START_SCENE);
+        
     }
 
     public void SetLockState(int _lockMode)
@@ -48,10 +48,6 @@ public class GameManager : MonoBehaviour
         m_lockStateManager.SetLockState((CursorLockMode)_lockMode);
     }
 
-    /// <summary>
-    /// Recognize incomming scene change request
-    /// </summary>
-    /// <param name="_ID"></param>
     public void ReceiveSceneID(int _ID)
     {
         if(m_sceneLoader.IsLoading)
@@ -67,5 +63,14 @@ public class GameManager : MonoBehaviour
     {
         if(s_instance == this)
             s_instance = null;
+    }
+
+    private void OnSceneLoaded(Scene _loaded, LoadSceneMode _mode)
+    {
+        if (_loaded.name != START_SCENE) return;
+        Debug.Log($"GameManager: OnSceneLoaded: Scene >> {_loaded.name}");
+        // TODO: Remove Test Request and send control unlock (scene switch enable) to frontend
+        ReceiveSceneID(1);
+        // END TEST REQUEST
     }
 }

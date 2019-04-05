@@ -51,8 +51,8 @@ LightmapSettings:
     m_IndirectOutputScale: 1
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -130,6 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa50595912352e4184d900cc904903a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 912104562684087208, guid: 68645be1799e7494da39f88eb9de6e2d,
+    type: 3}
 --- !u!114 &967965360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,5 +211,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4560843624968854946, guid: 66dddedb729b19142840ad92f97d387c,
+        type: 3}
+      propertyPath: prefab
+      value: 
+      objectReference: {fileID: 912104562684087208, guid: 68645be1799e7494da39f88eb9de6e2d,
+        type: 3}
+    - target: {fileID: 4560843624968854946, guid: 66dddedb729b19142840ad92f97d387c,
+        type: 3}
+      propertyPath: playerPrefab
+      value: 
+      objectReference: {fileID: 912104562684087208, guid: 68645be1799e7494da39f88eb9de6e2d,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66dddedb729b19142840ad92f97d387c, type: 3}
