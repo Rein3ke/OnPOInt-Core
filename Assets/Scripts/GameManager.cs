@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
         if (s_instance != null)
         {
             Destroy(gameObject);
-
             return;
         }
 
@@ -34,29 +33,19 @@ public class GameManager : MonoBehaviour
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        ComUtility.RegisterIntercomCallback(EProtocolObjectType.SCENE_CHANGE, OnSceneChangeReceived);
     }
 
     private void Start()
     {
         SceneManager.LoadScene(START_SCENE);
-        
     }
 
     public void SetLockState(int _lockMode)
     {
         if (_lockMode > 2 || _lockMode < 0) throw new System.ArgumentException("Invalid _lockMode supplied.");
         m_lockStateManager.SetLockState((CursorLockMode)_lockMode);
-    }
-
-    public void ReceiveSceneID(int _ID)
-    {
-        if(m_sceneLoader.IsLoading)
-        {
-            Debug.LogWarning("Loader is already busy on another scene!");
-            return;
-        }
-        Debug.Log($"Loading Scene {_ID} ...");
-        m_sceneLoader.LoadScene(_ID);
     }
 
     private void OnDestroy()
@@ -70,7 +59,21 @@ public class GameManager : MonoBehaviour
         if (_loaded.name != START_SCENE) return;
         Debug.Log($"GameManager: OnSceneLoaded: Scene >> {_loaded.name}");
         // TODO: Remove Test Request and send control unlock (scene switch enable) to frontend
-        ReceiveSceneID(1);
+        OnSceneChangeReceived(new SceneChangeProtocolObject(1));
         // END TEST REQUEST
     }
+
+    #region INTERCOM_CALLBACKS
+    private void OnSceneChangeReceived(ProtocolObject _poObject)
+    {
+        var sceneChangeObject = (_poObject as SceneChangeProtocolObject) ?? throw new System.ArgumentException("Received PO object was not of type scene change!");
+        if (m_sceneLoader.IsLoading)
+        {
+            Debug.LogWarning("Loader is already busy on another scene!");
+            return;
+        }
+        Debug.Log($"Loading Scene {sceneChangeObject.SceneID} ...");
+        m_sceneLoader.LoadScene(sceneChangeObject.SceneID);
+    }
+    #endregion
 }

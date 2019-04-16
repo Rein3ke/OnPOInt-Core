@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
     private int m_loadingSceneID = -1;
     private string m_loadSceneName;
     private UnityWebRequestAsyncOperation m_runningRequest = null;
+    private AssetBundle m_currentlyLoadedSceneBundle;
 
     private Text m_loadingText;
 
@@ -86,6 +87,13 @@ public class SceneLoader : MonoBehaviour
             m_loadingText.text = "Initializing download...";
         }
 
+        if (m_currentlyLoadedSceneBundle != null)
+        {
+            Debug.Log("Unloading cached scene bundle...");
+            m_currentlyLoadedSceneBundle.Unload(true);
+            m_currentlyLoadedSceneBundle = null;
+        }
+
         var url = $"{BUNDLE_ROOT}/{LOAD_SCENE_PREFIX}{m_loadingSceneID}";
 
         Debug.Log("Requesting bundle from " + url);
@@ -110,7 +118,7 @@ public class SceneLoader : MonoBehaviour
             ShowError("Failed to load scene!");
             return;
         }
-
+        m_currentlyLoadedSceneBundle = _bundle;
         Debug.Log("Loading scene...");
         SceneManager.LoadScene(m_loadSceneName);
     }

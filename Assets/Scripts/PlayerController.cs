@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    public float                MoveSpeed = 6.0f;
+    public float                MoveSpeed = 4.0f;
     public float                InteractionRange = 10.0f;
 
     private float               m_translation;
@@ -12,28 +13,17 @@ public class PlayerController : MonoBehaviour
     private Ray                 m_ray;
     private RaycastHit          m_hit;
     private PointOfInterest     m_hoverPoint;
+    private LayerMask           m_layerMask;
+    private PointOfInterest     m_poiHit;
+    private CharacterController m_char;
 
     private void Awake()
     {
         m_cameraController  = GetComponentInChildren<CameraController>();
         m_uiController      = GetComponentInChildren<PlayerUI>();
+        m_layerMask         = LayerMask.GetMask("Default", "PointOfInterest");
+        m_char              = GetComponent<CharacterController>();
     }
-
-    //public void Spawn()
-    //{
-    //    if (isSpawned) return;
-
-    //    var go = GameObject.FindGameObjectWithTag("Respawn");
-    //    if (go == null)
-    //    {
-    //        Debug.LogWarning("Failed to find proper spawn point in scene. Defaulting player position.");
-    //        return;
-    //    }
-    //    transform.position = go.transform.position;
-    //    transform.rotation = go.transform.rotation;
-
-    //    isSpawned = true;
-    //}
 
     private void Update()
     {
@@ -50,22 +40,21 @@ public class PlayerController : MonoBehaviour
         m_translation   = Input.GetAxis("Vertical") * MoveSpeed * Time.deltaTime;
         m_straffe       = Input.GetAxis("Horizontal") * MoveSpeed * Time.deltaTime;
 
-        transform.Translate(m_straffe, 0, m_translation);
+        m_char.Move(transform.TransformDirection(new Vector3(m_straffe, 0, m_translation)));
     }
 
     private void ProcessRaycast()
     {
         m_ray = m_cameraController.Camera.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0));
 
-        if (Physics.Raycast(m_ray, out m_hit, InteractionRange, 1 << LayerMask.NameToLayer("PointOfInterest")))
+        m_poiHit = null;
+        if (Physics.Raycast(m_ray, out m_hit, InteractionRange, m_layerMask) && 
+            (m_poiHit = m_hit.collider.GetComponent<PointOfInterest>()))
         {
-            var poi = m_hit.collider.GetComponent<PointOfInterest>();
-
-            if (poi != m_hoverPoint)
+            if (m_poiHit != m_hoverPoint)
             {
-                m_hoverPoint    = poi;
-                ComUtility.Send(new POIProtocolObject(poi.ID));
-                //Debug.Log(data.Name + ":" + data.Description);
+                m_hoverPoint    = m_poiHit;
+                ComUtility.Send(new POIProtocolObject(m_poiHit.ID));
             }
         }
         else

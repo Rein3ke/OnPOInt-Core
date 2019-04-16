@@ -16,7 +16,7 @@ public class LockStateManager : MonoBehaviour
 
     private void ProcessRegisterUserInput()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             if (m_cursorLockMode != CursorLockMode.None && !m_isPaused)
                 SetLockState(CursorLockMode.None);

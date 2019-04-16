@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Camera))]
 public class CameraController : MonoBehaviour
 {
-    public float        Sensitivity = 5.0f;
+    public float        Sensitivity = 3.0f;
     public float        Smoothing = 2.0f;
 
     public Camera       Camera { get; private set; }

@@ -11,6 +11,11 @@ public class ProtocolObject
         Type = _type;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_jsonString"></param>
+    /// <returns></returns>
     public static ProtocolObject Deserialize(string _jsonString)
     {
         var obj = JsonUtility.FromJson<ProtocolObject>(_jsonString);
@@ -24,17 +29,20 @@ public class ProtocolObject
         }
     }
 
+    /// <summary>
+    /// A method to serialize the previously declared ProtocolObject.
+    /// </summary>
+    /// <returns>The serialzied ProtocolObject as a JSON string</returns>
     public string Serialize()
     {
         var serializedObj = JsonUtility.ToJson(this, false);
-        //Debug.Log(serializedObj);
         return serializedObj;
     }
 }
 
 /// <summary>
-/// Geht vom unity build raus an javascript.
-/// Unity -> JS
+/// Association of the ProtocolObject. Classifies the protocol as a POI-object and contains the ID of the POI.
+/// Intended for communication with JavaScript
 /// </summary>
 [System.Serializable]
 public class POIProtocolObject : ProtocolObject
@@ -52,26 +60,24 @@ public class POIProtocolObject : ProtocolObject
 }
 
 /// <summary>
-/// Protocol for changing the present scene.
-/// JS -> Unity
+/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Intended for communication with Unity
 /// </summary>
 [System.Serializable]
 public class SceneChangeProtocolObject : ProtocolObject
 {
-    public string SceneID;
-    public string SceneName;
+    public int SceneID;
 
     public SceneChangeProtocolObject() { }
-    public SceneChangeProtocolObject(string _sceneID, string _sceneName)
+    public SceneChangeProtocolObject(int _sceneID)
         : base(EProtocolObjectType.SCENE_CHANGE)
     {
         SceneID     = _sceneID;
-        SceneName   = _sceneName;
     }
 }
 
 /// <summary>
-/// Protocol type. E.g. Point of Interest-Protocol
+/// Classify the protocol types into categories (e.g. POI Protocol)
 /// </summary>
 [System.Serializable]
 public enum EProtocolObjectType
