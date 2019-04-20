@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         ComUtility.RegisterIntercomCallback(EProtocolObjectType.SCENE_CHANGE, OnSceneChangeReceived);
+        ComUtility.RegisterIntercomCallback(EProtocolObjectType.SPEED_CHANGE, OnSpeedChangeReceived);
+        ComUtility.RegisterIntercomCallback(EProtocolObjectType.SENS_CHANGE, OnSensibilityChangeReceived);
     }
 
     private void Start()
@@ -74,6 +76,28 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log($"Loading Scene {sceneChangeObject.SceneID} ...");
         m_sceneLoader.LoadScene(sceneChangeObject.SceneID);
+    }
+    private void OnSpeedChangeReceived(ProtocolObject _poObject)
+    {
+        var speedChangeObject = (_poObject as SpeedChangeProtocolObject) ?? throw new System.ArgumentException("Received PO object was not of type speed change!");
+        PlayerController player = FindObjectOfType<PlayerController>();
+
+        if (player != null)
+        {
+            player.MoveSpeed = speedChangeObject.Value;
+            Debug.Log($"Changend Player movement speed to {speedChangeObject.Value} ...");
+        }
+    }
+    private void OnSensibilityChangeReceived(ProtocolObject _poObject)
+    {
+        var sensChangeObject = (_poObject as SensibilityChangeProtocolObject) ?? throw new System.ArgumentException("Received PO object was not of type sensibility change!");
+        CameraController camera = FindObjectOfType<CameraController>();
+
+        if (camera != null)
+        {
+            camera.Sensitivity = sensChangeObject.Value;
+            Debug.Log($"Changend Camera sensibility to {sensChangeObject.Value} ...");
+        }
     }
     #endregion
 }

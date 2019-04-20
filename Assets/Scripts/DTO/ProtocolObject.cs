@@ -26,6 +26,10 @@ public class ProtocolObject
                 return JsonUtility.FromJson<POIProtocolObject>(_jsonString);
             case EProtocolObjectType.SCENE_CHANGE:
                 return JsonUtility.FromJson<SceneChangeProtocolObject>(_jsonString);
+            case EProtocolObjectType.SPEED_CHANGE:
+                return JsonUtility.FromJson<SpeedChangeProtocolObject>(_jsonString);
+            case EProtocolObjectType.SENS_CHANGE:
+                return JsonUtility.FromJson<SensibilityChangeProtocolObject>(_jsonString);
         }
     }
 
@@ -77,6 +81,40 @@ public class SceneChangeProtocolObject : ProtocolObject
 }
 
 /// <summary>
+/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Intended for communication with Unity
+/// </summary>
+[System.Serializable]
+public class SpeedChangeProtocolObject : ProtocolObject
+{
+    public int Value;
+
+    public SpeedChangeProtocolObject() { }
+    public SpeedChangeProtocolObject(int _value)
+        : base(EProtocolObjectType.SPEED_CHANGE)
+    {
+        Value = _value;
+    }
+}
+
+/// <summary>
+/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Intended for communication with Unity
+/// </summary>
+[System.Serializable]
+public class SensibilityChangeProtocolObject : ProtocolObject
+{
+    public int Value;
+
+    public SensibilityChangeProtocolObject() { }
+    public SensibilityChangeProtocolObject(int _value)
+        : base(EProtocolObjectType.SENS_CHANGE)
+    {
+        Value = _value;
+    }
+}
+
+/// <summary>
 /// Classify the protocol types into categories (e.g. POI Protocol)
 /// </summary>
 [System.Serializable]
@@ -85,4 +123,6 @@ public enum EProtocolObjectType
     NONE            = 0,
     POI             = 1,
     SCENE_CHANGE    = 2,
+    SPEED_CHANGE    = 3,
+    SENS_CHANGE     = 4
 }
