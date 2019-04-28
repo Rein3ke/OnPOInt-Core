@@ -17,7 +17,8 @@ public class ComUtility : MonoBehaviour
 
     public static void RegisterIntercomCallback(EProtocolObjectType _type, System.Action<ProtocolObject> _callback)
     {
-        if (s_intercomCallbacks.ContainsKey(_type)) throw new System.ArgumentException("_type provided is invalid as a callback has already been registered for it.");
+        if (s_intercomCallbacks.ContainsKey(_type)) throw new System.ArgumentException("_type provided is invalid" +
+            "as a callback has already been registered for it.");
         s_intercomCallbacks.Add(_type, _callback);
     }
 
