@@ -12,10 +12,11 @@ public class ProtocolObject
     }
 
     /// <summary>
-    /// 
+    /// A static method for deserializing a JSON string as a ProtocolObject.
+    /// The ProtocolObject will then be returned.
     /// </summary>
-    /// <param name="_jsonString"></param>
-    /// <returns></returns>
+    /// <param name="_jsonString">JSON string that defines a ProtocolObject</param>
+    /// <returns>Deserialized ProtocolObject</returns>
     public static ProtocolObject Deserialize(string _jsonString)
     {
         var obj = JsonUtility.FromJson<ProtocolObject>(_jsonString);
@@ -36,7 +37,7 @@ public class ProtocolObject
     /// <summary>
     /// A method to serialize the previously declared ProtocolObject.
     /// </summary>
-    /// <returns>The serialzied ProtocolObject as a JSON string</returns>
+    /// <returns>The serialized ProtocolObject as a JSON string</returns>
     public string Serialize()
     {
         var serializedObj = JsonUtility.ToJson(this, false);
@@ -45,7 +46,7 @@ public class ProtocolObject
 }
 
 /// <summary>
-/// Association of the ProtocolObject. Classifies the protocol as a POI-object and contains the ID of the POI.
+/// Association of the ProtocolObject. Classifies the protocol as a POIProtocolObject and contains the ID of the POI.
 /// Intended for communication with JavaScript
 /// </summary>
 [System.Serializable]
@@ -64,7 +65,7 @@ public class POIProtocolObject : ProtocolObject
 }
 
 /// <summary>
-/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Association of the ProtocolObject. Classifies the protocol as a SceneChangeProtocolObject and contains the ID and Name of the Scene.
 /// Intended for communication with Unity
 /// </summary>
 [System.Serializable]
@@ -81,7 +82,7 @@ public class SceneChangeProtocolObject : ProtocolObject
 }
 
 /// <summary>
-/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Association of the ProtocolObject. Classifies the protocol as a SpeedChangeProtocolObject and contains the speed value of the player.
 /// Intended for communication with Unity
 /// </summary>
 [System.Serializable]
@@ -98,7 +99,7 @@ public class SpeedChangeProtocolObject : ProtocolObject
 }
 
 /// <summary>
-/// Association of the ProtocolObject. Classifies the protocol as a Scene-object and contains the ID and Name of the Scene.
+/// Association of the ProtocolObject. Classifies the protocol as a SensibilityChangeProtocolObject and contains the sensibility value.
 /// Intended for communication with Unity
 /// </summary>
 [System.Serializable]
@@ -115,7 +116,7 @@ public class SensibilityChangeProtocolObject : ProtocolObject
 }
 
 /// <summary>
-/// Classify the protocol types into categories (e.g. POI Protocol)
+/// Classify the protocol types into categories (e.g. POI-Protocol)
 /// </summary>
 [System.Serializable]
 public enum EProtocolObjectType

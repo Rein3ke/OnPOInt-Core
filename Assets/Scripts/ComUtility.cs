@@ -10,11 +10,21 @@ public class ComUtility : MonoBehaviour
 
     private static IntercomCallbacks s_intercomCallbacks = new IntercomCallbacks();
 
+    /// <summary>
+    /// Function that serves as message output for all other classes.
+    /// It submits a submitted ProtocolObject to the TrySerializeAndCall method.
+    /// </summary>
+    /// <param name="_pObject">ProtocolObject</param>
     public static void Send(ProtocolObject _pObject)
     {
         TrySerializeAndCall(_pObject, OnDataReceived);
     }
 
+    /// <summary>
+    /// Function that binds a function to a type in the callback-register.
+    /// </summary>
+    /// <param name="_type">Type of the ProtocolObject</param>
+    /// <param name="_callback">Callback function that expects a JSON string</param>
     public static void RegisterIntercomCallback(EProtocolObjectType _type, System.Action<ProtocolObject> _callback)
     {
         if (s_intercomCallbacks.ContainsKey(_type)) throw new System.ArgumentException("_type provided is invalid" +
@@ -22,6 +32,11 @@ public class ComUtility : MonoBehaviour
         s_intercomCallbacks.Add(_type, _callback);
     }
 
+    /// <summary>
+    /// Function that tries to serialize and pass a ProtocolObject.
+    /// </summary>
+    /// <param name="_pObject">ProtocolObject</param>
+    /// <param name="_jsCallback">Callback-Function which the serialized ProtocolObject should receive</param>
     private static void TrySerializeAndCall(ProtocolObject _pObject, System.Action<string> _jsCallback)
     {
         try
@@ -31,7 +46,6 @@ public class ComUtility : MonoBehaviour
 
             var result = _pObject.Serialize();
             if (string.IsNullOrEmpty(result)) throw new System.Exception("Serialization data is null");
-            Debug.Log("TrySerializeAndCall: " + result);
             _jsCallback(result);
         }
 #if UNITY_EDITOR
@@ -51,6 +65,10 @@ public class ComUtility : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    /// <summary>
+    /// Message input for JSON strings. Called by JavaScript.
+    /// </summary>
+    /// <param name="_jsonString">JSON string that defines a ProtocolObject</param>
     private void OnWebDataReceived(string _jsonString)
     {
         var pObject = ProtocolObject.Deserialize(_jsonString);

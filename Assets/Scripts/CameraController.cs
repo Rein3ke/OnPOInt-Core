@@ -20,6 +20,9 @@ public class CameraController : MonoBehaviour
         Camera              = GetComponent<Camera>();
     }
 
+    /// <summary>
+    /// Allows the camera to rotate if the application is not paused.
+    /// </summary>
     private void Update()
     {
         if (GameManager.Instance?.LockStateManager.IsPaused ?? true)
@@ -29,6 +32,9 @@ public class CameraController : MonoBehaviour
         ProcessMove();
     }
 
+    /// <summary>
+    /// Based on the mouse movement, the camera rotates to the calculated vector.
+    /// </summary>
     private void ProcessMove()
     {
         m_moveDirection = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
